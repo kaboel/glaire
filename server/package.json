@@ -4,6 +4,10 @@
   "description": "Glaire server-side",
   "author": "faiq.kaboel@gmail.com",
   "license": "MIT",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js src/app.js --exec 'npm run lint && node'",
+    "lint": "./node_modules/.bin/eslint src/*.js"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
