@@ -11,7 +11,7 @@ const App = express();
 App.use(morgan('combined'));
 App.use(cors());
 
-App.use('/v1', gqlHTTP({ schema: SCHEMA, graphiql: true }));
+App.use('/v0', gqlHTTP({ schema: SCHEMA, graphiql: true }));
 
 const db = config.db.uriString;
 mongoose.connect(db, {useNewUrlParser: true})
