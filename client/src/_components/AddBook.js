@@ -1,26 +1,27 @@
 import React from 'react';
 import {graphql, compose} from "react-apollo";
 import Queries from '../_graphql/queries';
+import Mutations from '../_graphql/mutations';
 
 class AddBook extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            authorId: null,
+            publisherId: null,
             title: null,
             genre: null,
-            authorId: null,
-            published: null,
-            publisherId: null
+            published: null
         }
     }
 
     authors() {
         let data = this.props.authors;
         if (data.loading) {
-            return(<option defaultValue>Fetching Authors...</option>);
+            return(<option>Fetching Authors...</option>);
         } else {
-            return data.authors.map(author => {
+            return data.authors.map(author=> {
                 return (
                     <option key={ author.id } value={ author.id }>
                         { author.name }
@@ -33,7 +34,7 @@ class AddBook extends React.Component {
     publishers() {
         let data = this.props.publishers;
         if (data.loading) {
-            return(<option defaultValue>Fetching Publishers...</option>);
+            return(<option>Fetching Publishers...</option>);
         } else {
             return data.publishers.map(publisher => {
                 return (
@@ -47,10 +48,24 @@ class AddBook extends React.Component {
 
     submitForm(e) {
         e.preventDefault();
+        this.props.addBook({
+            variables: {
+                authorId: this.state.authorId,
+                publisherId: this.state.publisherId,
+                title: this.state.title,
+                genre: this.state.genre,
+                published: this.state.published
+            },
+            refetchQueries: [
+                {query: Queries.getBooks}
+            ]
+        });
+
         console.log(this.state);
     }
 
     render() {
+
         return (
             <form id="add-book" onSubmit={ this.submitForm.bind(this) }>
 
@@ -65,7 +80,7 @@ class AddBook extends React.Component {
                 <div className="field">
                     <label>Author: </label>
                     <select onChange={ e => this.setState({ authorId: e.target.value }) }>
-                        <option disabled>Select Author</option>
+                        <option value="" disabled selected>Select Author</option>
                         { this.authors() }
                     </select>
                 </div>
@@ -76,7 +91,7 @@ class AddBook extends React.Component {
                 <div className="field">
                     <label>Publisher: </label>
                     <select onChange={ e => this.setState({ publisherId: e.target.value })}>
-                        <option disabled>Select Publisher</option>
+                        <option value="" disabled selected>Select Publisher</option>
                         { this.publishers() }
                     </select>
                 </div>
@@ -90,10 +105,7 @@ class AddBook extends React.Component {
 
 export default
 compose(
-    graphql(Queries.getAuthors, {
-        name: "authors"
-    }),
-    graphql(Queries.getPublishers, {
-        name: "publishers"
-    })
+    graphql(Queries.getAuthors, { name: "authors" }),
+    graphql(Queries.getPublishers, { name: "publishers" }),
+    graphql(Mutations.addBook, { name: "addBook" })
 )(AddBook);
