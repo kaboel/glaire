@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import Queries from '../_queries/queries';
+import Queries from '../_graphql/queries';
 
 class BookList extends React.Component {
     books() {

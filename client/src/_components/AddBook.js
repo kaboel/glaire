@@ -1,6 +1,6 @@
 import React from 'react';
 import {graphql, compose} from "react-apollo";
-import Queries from '../_queries/queries';
+import Queries from '../_graphql/queries';
 
 class AddBook extends React.Component {
     constructor(props) {
