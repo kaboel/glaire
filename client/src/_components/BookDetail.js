@@ -3,22 +3,39 @@ import {graphql} from "react-apollo";
 import Queries from "../_graphql/queries";
 
 class BookDetail extends React.Component {
+    getDate(ms) {
+        let date = new Date(parseInt(ms));
+        return date.getFullYear();
+    }
+
     book() {
         const { book, loading } = this.props.data;
         if (loading) {
             return (<p>Fetching data...</p>)
         } else if(book) {
             return (
-                <div>
-                    <h2> {book.title} </h2>
-                    <p> {book.genre} </p>
-                    <p> {book.published} </p>
-                    <p> By: {book.author.name} </p>
+                <div className="details">
+                    <h2>
+                        <span>{book.author.name}</span><br/>
+                        {book.title} <br/>
+                        <span>{book.genre}</span>
+                    </h2>
+                    <p> Published: <b>{this.getDate(book.published)}</b> </p>
+                    <p> By: <b>{book.publisher.name}</b> </p>
                     <hr/>
-                    <p> Books by {book.author.name} </p>
+                    <p> Books by <b>{book.author.name}</b> </p>
                     <ul className="other-books">
                         {
                             book.author.books.map(item => {
+                                return ( <li key={ item.id }>{ item.title }</li> )
+                            })
+                        }
+                    </ul>
+                    <hr/>
+                    <p> Books published by <b>{book.publisher.name}</b> </p>
+                    <ul className="other-books">
+                        {
+                            book.publisher.books.map(item => {
                                 return ( <li key={ item.id }>{ item.title }</li> )
                             })
                         }
