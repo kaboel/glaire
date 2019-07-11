@@ -24,6 +24,27 @@ const Queries = {
                 name
             }
         }
+    `,
+    getBook: gql`
+        query($id: ID) {
+            book(id: $id) {
+                id
+                title
+                genre
+                author {
+                    name
+                    books {
+                        title
+                        genre
+                        published
+                    }
+                }
+                publisher {
+                    name
+                }
+                published
+            }
+        }
     `
 };
 
