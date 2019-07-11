@@ -60,12 +60,9 @@ class AddBook extends React.Component {
                 {query: Queries.getBooks}
             ]
         });
-
-        console.log(this.state);
     }
 
     render() {
-
         return (
             <form id="add-book" onSubmit={ this.submitForm.bind(this) }>
 
