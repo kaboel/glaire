@@ -41,6 +41,13 @@ const Queries = {
                 }
                 publisher {
                     name
+                    books {
+                        title
+                        genre
+                        author {
+                            name
+                        }
+                    }
                 }
                 published
             }
