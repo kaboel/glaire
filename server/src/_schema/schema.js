@@ -57,7 +57,7 @@ const PublisherType = new GraphQLObjectType({
     })
 });
 
-const RootQuery = new GraphQLObjectType({
+const Queries = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
         book: {
@@ -102,7 +102,7 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
-const Mutation = new GraphQLObjectType({
+const Mutations = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
         addBook: {
@@ -127,6 +127,7 @@ const Mutation = new GraphQLObjectType({
                     return book.save();
                 } catch(err) {
                     console.log(err.message);
+                    return err;
                 }
             }
         },
@@ -146,6 +147,7 @@ const Mutation = new GraphQLObjectType({
                     return author.save();
                 } catch (err) {
                     console.log(err.message);
+                    return err;
                 }
             }
         },
@@ -163,15 +165,77 @@ const Mutation = new GraphQLObjectType({
                     return publisher.save();
                 } catch(err) {
                     console.log(err.message);
+                    return err;
                 }
+            }
+        },
+        deleteBook: {
+            type: BookType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                Book.deleteOne({_id: args.id}, (err, res) => {
+                    if (err) {
+                        return err;
+                    }
+                    return res;
+                })
+            }
+        },
+        deleteAuthor: {
+            type: AuthorType,
+            args: { 
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+              Author.deleteOne({_id: args.id}, (err, res) => {
+                  if (err) {
+                      return err;
+                  }
+                  return res;
+              })  
+            }
+        },
+        deletePublisher: {
+            type: PublisherType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                Publisher.deleteOne({_id: args.id}, (err, res) => {
+                    if (err) {
+                        return err;
+                    }
+                    return res;
+                })
+            }
+        },
+        updateBook: {
+            type: BookType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                authorId: { type: new GraphQLNonNull(GraphQLID) },
+                publisherId: { type: new GraphQLNonNull(GraphQLID) },
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                genre: { type: new GraphQLNonNull(GraphQLString) },
+                published: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                Book.findOne({_id: args.id}, (err, res) => {
+                    if (err) {
+                        return err
+                    }
+                    return res
+                })
             }
         }
     }
 });
 
 const SCHEMA = new GraphQLSchema({
-    query: RootQuery,
-    mutation: Mutation
+    query: Queries,
+    mutation: Mutations
 });
 
 module.exports = SCHEMA;

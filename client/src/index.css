@@ -18,7 +18,7 @@ body {
 
 #main h1 {
     color: #444;
-    text-align: center;
+    margin-left: 20px;
 }
 
 #book-list {
@@ -42,11 +42,11 @@ body {
 
 form#add-book {
     background: #fff;
-    padding: 20px;
+    padding: 20px 40px;
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 500px;
+    width: 700px;
     -webkit-box-shadow: 2px -2px 3px rgba(0,0,0,0.4);
     -moz-box-shadow: 2px -2px 3px rgba(0,0,0,0.4);
     box-shadow: 2px -2px 3px rgba(0,0,0,0.4);
@@ -55,7 +55,7 @@ form#add-book {
 
 form#add-book .field {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 3fr;
     grid-gap: 10px;
 }
 
@@ -64,28 +64,12 @@ form#add-book .field label {
     padding: 6px;
 }
 
-form#add-book .field input {
-    margin: 6px;
-    padding: 6px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-form#add-book .field select {
-    margin: 6px;
-    padding: 3px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-form#add-book button {
+form#add-book button.btn-circular {
     color: #fff;
-    font-size: 2em;
+    font-size: 1.5em;
     background: #ad1457;
     border: 0;
-    padding: 0 0.9rem 2px 0.9rem;
+    padding: 6px 16px 9px 17px;
     text-align: center;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -132,4 +116,25 @@ form#add-book button {
 
 hr {
     color: #fff;
+}
+
+label {
+    font-weight: bold;
+}
+
+.footer {
+    position: absolute;
+    z-index: 999999;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    bottom: 0;
+    left: 0;
+}
+
+.back-btn {
+    cursor: pointer;
+    color: #ad1457;
 }

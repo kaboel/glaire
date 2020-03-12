@@ -12,15 +12,26 @@ class BookList extends React.Component {
         }
     }
 
+    filter() {
+        let books = this.props.data.books
+        let key = this.props.keyword;
+        return (key) ? 
+            books.filter(el => `${el.title}`.toLowerCase().includes(key.trim().toLowerCase())) 
+            : books
+    }
+
+    handleSelectUpdate(selected) {
+        this.props.onSelectUpdate(selected);
+    }
+
     books() {
-        let data = this.props.data;
-        if (data.loading) {
+        let books = this.filter();
+        if (!books) {
             return ( <div>Loading Books...</div> )
         } else {
-            return data.books.map(book => {
+            return books.map(book => {
                 return (
-                    <li key={book.id}
-                        onClick={ e => { this.setState({ selected: book.id })} }>
+                    <li key={book.id} onClick={ e => { this.setState({ selected: book.id })} }>
                         {book.title}
                     </li>
                 )
@@ -31,10 +42,14 @@ class BookList extends React.Component {
     render() {
         return (
             <div>
-                <ul id="book-list">
-                    { this.books() }
-                </ul>
-                <BookDetail bookId={ this.state.selected } />
+                <div className="container-fluid text-center">
+                    <ul id="book-list">
+                        { this.books() }
+                    </ul>
+                </div>
+                <div className="container">
+                    <BookDetail onSelectUpdate={ this.handleSelectUpdate.bind(this) } bookId={ this.state.selected } />
+                </div>
             </div>
         );
     }

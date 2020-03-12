@@ -26,7 +26,7 @@ const Queries = {
         }
     `,
     getBook: gql`
-        query($id: ID) {
+        query($id: ID!) {
             book(id: $id) {
                 id
                 title
@@ -34,16 +34,15 @@ const Queries = {
                 author {
                     name
                     books {
+                        id
                         title
-                        genre
-                        published
                     }
                 }
                 publisher {
                     name
                     books {
+                        id
                         title
-                        genre
                         author {
                             name
                         }
