@@ -15,18 +15,17 @@ App.use(cors());
 
 App.use('/v0', gqlHTTP({ schema: SCHEMA, graphiql: true }));
 
-
 mongoose.connect(db, {useNewUrlParser: true})
-    .then(() => {
-        console.log(`\n[glaire] connected to glaire@Kluster-0\n.\n.`);
-        try {
-            App.listen(port, () => {
-                console.log(`[glaire] server started on port: ${port}...`);
-            });
-        } catch (err) {
-            console.log(err.message);
-        }
-    }).catch((err) => {
-        console.log(`\n[glaire] error while connecting to database - ${err.message}`);
-    });
+  .then(() => {
+    console.log(`\n[glaire] connected to glaire@Kluster-0\n.\n.`);
+    try {
+      App.listen(port, () => {
+        console.log(`[glaire] server started on port: ${port}...`);
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }).catch((err) => {
+      console.log(`\n[glaire] error while connecting to database - ${err.message}`);
+  });
 
